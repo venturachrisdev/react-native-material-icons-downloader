@@ -1,6 +1,6 @@
 # React Native Material Icons Downloader
 
-Download icons from [https://material.io/tools/icons](https://material.io) in React Native icons format.
+Download icons from [https://material.io](https://material.io/tools/icons) in React Native icons format.
 
 ### Getting started
 ```
