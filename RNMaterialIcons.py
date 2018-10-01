@@ -41,6 +41,7 @@ default_options = {
   'theme': 'round',
   'color': 'white',
   'size': 24,
+  'platform': 'none',
 }
 
 def build_asset_url(options):
@@ -70,11 +71,17 @@ def build_android_filename(android_name, options):
   )
   return filename
 
-def build_react_filename(dim, platform, options):
-  filename = '{}{}{}.{}'.format(
+def build_platform_dimension(platform, dim):
+  if platform == 'android' or platform == 'ios':
+    return '{}{}.'.format(dim, platform)
+  else:
+    return dim
+
+def build_react_filename(dim, options):
+  platform_dim = build_platform_dimension(options["platform"], dim)
+  filename = '{}{}{}'.format(
     options['name'],
-    dim,
-    platform,
+    platform_dim,
     ASSET_EXTENSION
   )
   return filename
@@ -93,6 +100,8 @@ if __name__ == '__main__':
                       required=False, dest='size')
   parser.add_argument('-d', '--dir', help='Directory where asset will be downloaded (default: current)',
                       required=False, dest='dir')
+  parser.add_argument('-p', '--platform', help='Assets platform target (default: none)',
+                      required=False, dest='platform')
   args = parser.parse_args()
 
   options = default_options
@@ -109,6 +118,8 @@ if __name__ == '__main__':
       options['size'] = args.size
     if args.name:
       options['name'] = args.name # Override
+    if args.platform:
+      options['platform'] = args.platform
     file_url = build_platform_url(options)
     try:
       # Download from material.io
@@ -125,7 +136,7 @@ if __name__ == '__main__':
             # if this file is the same we built (we've found our file)
             if filename == file:
               # Build react equivalent name
-              react_name = build_react_filename(dim, platforms[0], options)
+              react_name = build_react_filename(dim, options)
               with folder.open(file) as android_icon:
                 android_icon_content = android_icon.read()
                 # Save as React Native icon
