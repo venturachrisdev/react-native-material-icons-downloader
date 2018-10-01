@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="react_native_material_icons",
-    version="0.0.1",
+    version="0.0.2",
     author="Christopher Ventura",
     author_email="venturachrisdev@gmail.com",
     description="Download icons from https://material.io in React Native icons format.",
