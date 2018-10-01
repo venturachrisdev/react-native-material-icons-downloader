@@ -3,6 +3,14 @@ import argparse
 import io
 import urllib.request as request
 import zipfile
+import os, ssl
+
+"""
+Prevent: CERTIFICATE_VERIFY_FAILED
+"""
+if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+    getattr(ssl, '_create_unverified_context', None)): 
+    ssl._create_default_https_context = ssl._create_unverified_context
 
 # Author: Christopher Ventura <venturachrisdev@gmail.com>
 
@@ -145,7 +153,7 @@ if __name__ == '__main__':
       # Everything went OK
       print('[*] {} icon downloaded successfully from {}'.format(options['asset'], SOURCE))
     except Exception as e:
-      print(e)
+      print("Error: ", e)
       print('[!] Sorry, we couldn\'t find \'{}\' {} icon.'.format(
         options['asset'], options['theme']))
       print('[*] You can visit {} for more icon names'.format(SOURCE))
